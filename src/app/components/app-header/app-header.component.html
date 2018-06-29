@@ -15,11 +15,11 @@
         <a class="nav-link" href="#">Pricing</a>
       </li> -->
     </ul>
-    <span class="navbar-text">
-      <a class="nav-link" href="#" id="googleBtn">Sign In</a>
+    <span class="navbar-text" style="padding: 0rem; text-align: right">
+      <a class="nav-link" href="#" id="googleBtn" hidden="true">Sign In</a>
     </span>
 
-    <span class="navbar-text" style="padding: 0rem;margin-right: -4rem" id="user-dropdown">
+    <span class="navbar-text" style="padding: 0rem;text-align: right" id="user-dropdown">
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="false">
@@ -29,8 +29,8 @@
           <span style="font-size: 13px">Me</span>
         </a>
 
-        <div class="dropdown-menu bg-white" style="margin-left: -8rem">
-          <a class="dropdown-item text-secondary" id="user-name" href="#" style="font-weight: 600"></a>
+        <div class="dropdown-menu bg-white" style="margin-left: -16rem">
+          <a class="dropdown-item text-secondary" id="user-name" href="javascript:void(0)" style="font-weight: 600"></a>
           <div class="dropdown-divider"></div>
           <a id='sign-out' class="dropdown-item text-secondary" href="#" (click)="signOut();" style="font-weight: 600">Sign out</a>
         </div>
