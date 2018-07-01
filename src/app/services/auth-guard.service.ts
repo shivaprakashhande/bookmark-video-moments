@@ -17,28 +17,33 @@ export class AuthGuardService {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
     let url: string = state.url;
     return new Promise((resolve, reject) => {
-      if (sessionStorage.getItem('clientSignedIn')) {
-        resolve(true);
-      } else {
-        this.googleInit().then(() => {
-          this.appService.getUserDetails(this.auth2)
-          if (url == '/signIn') {
-            this.router.navigateByUrl('main');
-            resolve(false);
-          }
-          else {
-            resolve(true);
-          }
+      if (sessionStorage.getItem('session')) {
+        let sessionObj = JSON.parse(sessionStorage.getItem('session'));
+        if (sessionObj['signInMethod'] == 'google') {
+          this.googleInit().then(() => {
+            this.appService.getUserDetails(this.auth2)
+            if (url == '/signIn') {
+              this.router.navigateByUrl('main');
+              resolve(false);
+            }
+            else {
+              resolve(true);
+            }
 
-        }, () => {
-          if (url == '/signIn') {
-            resolve(true);
-          }
-          else {
-            this.router.navigateByUrl('signIn');
-            resolve(false);
-          }
-        })
+          }, () => {
+            if (url == '/signIn') {
+              resolve(true);
+            }
+            else {
+              this.router.navigateByUrl('signIn');
+              resolve(false);
+            }
+          })
+        } else if (sessionObj['signInMethod'] == 'local') {
+          resolve(true);
+        }
+      } else {
+        resolve(true);
       }
     })
   }

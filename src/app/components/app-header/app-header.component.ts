@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppService } from '../../services/app.service'
 import { DataService } from '../../services/data.service';
 declare var gapi: any;
@@ -28,15 +28,16 @@ export class AppHeaderComponent {
   }
 
   public fetchAuth(auth) {
-    console.log('header', auth)
     this.auth2 = auth;
-    if (this.auth2.signInMethod && this.auth2.signInMethod == 'client') {
+    let sessionObj = JSON.parse(sessionStorage.getItem('session'))
+    if (sessionObj['signInMethod'] == 'local')
       this.clientSignIn()
-    } else if (this.auth2.signInMethod && this.auth2.signInMethod == 'google')
+    else if (sessionObj['signInMethod'] == 'google')
       this.attachSignin();
   }
 
   signOut() {
+    sessionStorage.removeItem('session');
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
@@ -51,7 +52,6 @@ export class AppHeaderComponent {
       getName: () => `${this.auth2[0].firstName} ${this.auth2[0].lastName}`,
       getEmail: () => `${this.auth2[0].eMail}`
     }
-    console.log(profile)
     this.setElements(profile)
   }
 

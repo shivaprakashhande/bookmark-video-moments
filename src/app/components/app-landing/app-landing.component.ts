@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { Component, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from '../../services/app.service'
 import { NgForm } from '@angular/forms';
 import { DataService } from '../../services/data.service';
@@ -28,7 +28,8 @@ export class AppLandingComponent {
 
   constructor(private router: Router,
     private appService: AppService,
-    private dataService: DataService) { }
+    private dataService: DataService,
+    private zone: NgZone) { }
 
   ngAfterViewInit() {
     this.googleInit();
@@ -52,9 +53,15 @@ export class AppLandingComponent {
   public attachSignin(element) {
     this.auth2.attachClickHandler(element, {},
       () => {
+        let sessionObj = {
+          'signInMethod': 'google',
+        }
+
+        sessionStorage.setItem('session', JSON.stringify(sessionObj))
         this.auth2.signInMethod = 'google';
         this.appService.getUserDetails(this.auth2);
-        this.router.navigateByUrl('main')
+        this.zone.run(() => { this.router.navigate(['main']) })
+
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
       });
@@ -67,9 +74,22 @@ export class AppLandingComponent {
           this.showMessage = true;
           this.message = 'Email is not registered. Please Sign Up and continue...';
           this.messageType = 'danger';
+          return;
         } else {
-          res['signInMethod'] = 'client';
-          sessionStorage.setItem('clientSignedIn', 'true');
+
+          if (form.value.password !== res[0]['password']) {
+            this.showMessage = true;
+            this.message = 'Incorrect password';
+            this.messageType = 'danger';
+            return;
+          }
+
+          let sessionObj = {
+            'signInMethod': 'local',
+          }
+
+          sessionStorage.setItem('session', JSON.stringify(sessionObj))
+          res['signInMethod'] = 'local';
           this.appService.getUserDetails(res);
           this.router.navigateByUrl('main');
         }
