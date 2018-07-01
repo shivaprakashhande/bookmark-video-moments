@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { AppService } from '../../services/app.service'
+import { NgForm } from '@angular/forms';
+import { DataService } from '../../services/data.service';
 declare var gapi: any;
 
 export interface User {
-  userName: string;
+  firstName: string;
   password: string;
+  eMail: string;
+  lastName?: string;
 }
 
 @Component({
@@ -14,12 +18,17 @@ export interface User {
   styleUrls: ['./app-landing.component.css']
 })
 export class AppLandingComponent {
-  User: User;
+  user: User;
   profilePic: string;
   userName: string;
   public auth2: any;
+  showMessage: boolean;
+  message: string;
+  messageType: string;
 
-  constructor(private router: Router, private appService: AppService) { }
+  constructor(private router: Router,
+    private appService: AppService,
+    private dataService: DataService) { }
 
   ngAfterViewInit() {
     this.googleInit();
@@ -43,10 +52,28 @@ export class AppLandingComponent {
   public attachSignin(element) {
     this.auth2.attachClickHandler(element, {},
       () => {
+        this.auth2.signInMethod = 'google';
         this.appService.getUserDetails(this.auth2);
-        window.location.reload();
+        this.router.navigateByUrl('main')
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
       });
+  }
+
+  signIn(form: NgForm) {
+    if (form.valid) {
+      this.dataService.getUser(form.value.eMail).subscribe((res: Array<{}>) => {
+        if (res.length == 0) {
+          this.showMessage = true;
+          this.message = 'Email is not registered. Please Sign Up and continue...';
+          this.messageType = 'danger';
+        } else {
+          res['signInMethod'] = 'client';
+          sessionStorage.setItem('clientSignedIn', 'true');
+          this.appService.getUserDetails(res);
+          this.router.navigateByUrl('main');
+        }
+      })
+    }
   }
 }

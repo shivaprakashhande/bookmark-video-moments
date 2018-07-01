@@ -6,56 +6,87 @@
           Sign Up
         </div>
         <div class="card-body">
+          <div class="alert alert-{{messageType}} alert-dismissible fade show" *ngIf="showMessage">
+            <button type="button" class="close" (click)="resetMessage()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{message}}
+          </div>
+
           <h5 class="card-title">Enter your details to continue...</h5>
-          <form #form="ngForm">
+          <form #form="ngForm" (ngSubmit)="onSubmit(form,content)">
 
             <div class="form-group row">
               <label for="inputName" class="col-sm-2 col-form-label">Name</label>
               <div class="col">
-                <input type="text" id="firstName" class="form-control" placeholder="First name">
+                <input type="text" required id="firstName" class="form-control" placeholder="First name" [(ngModel)]="firstName" name="firstName">
+                <div *ngIf="form.invalid && (form.controls.firstName.dirty || form.controls.firstName.touched) && form.controls.firstName.errors"
+                  class="alert alert-danger" style="line-height: 0.2rem;font-size:12px;margin: 0;">
+                  <div *ngIf="form.controls.firstName.errors.required">
+                    First Name is required.
+                  </div>
+                </div>
               </div>
+
               <div class="col">
-                <input type="text" id="lastName" class="form-control" placeholder="Last name">
+                <input type="text" id="lastName" class="form-control" placeholder="Last name" [(ngModel)]="lastName" name="lastName">
               </div>
             </div>
 
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Email" [(ngModel)]="userName" name="userName">
+                <input type="email" required class="form-control" id="inputEmail3" placeholder="Email" [(ngModel)]="eMail" name="eMail">
+                <div *ngIf="form.invalid && (form.controls.eMail.dirty || form.controls.eMail.touched) && form.controls.eMail.errors" class="alert alert-danger"
+                  style="line-height: 0.2rem;font-size:12px;margin: 0;">
+                  <div *ngIf="form.controls.eMail.errors.required">
+                    Email is required.
+                  </div>
+                </div>
               </div>
+
             </div>
             <div class="form-group row">
               <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Password" [(ngModel)]="password" name="password">
+                <input type="password" required class="form-control" id="inputPassword3" placeholder="Password" [(ngModel)]="password" name="password">
+                <div *ngIf="form.invalid && (form.controls.password.dirty || form.controls.password.touched) && form.controls.password.errors"
+                  class="alert alert-danger" style="line-height: 0.2rem;font-size:12px;margin: 0;">
+                  <div *ngIf="form.controls.password.errors.required">
+                    Enter a password.
+                  </div>
+                </div>
               </div>
+
             </div>
             <div class="form-group row">
               <label for="inputPassword4" class="col-sm-2 col-form-label">Confirm Password</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword4" placeholder="Confirm Password" [(ngModel)]="confirmPassword"
+                <input type="password" required class="form-control" id="inputPassword4" placeholder="Confirm Password" [(ngModel)]="confirmPassword"
                   name="confirmPassword">
+                <div *ngIf="form.invalid && (form.controls.confirmPassword.dirty || form.controls.confirmPassword.touched) && form.controls.confirmPassword.errors"
+                  class="alert alert-danger" style="line-height: 0.2rem;font-size:12px;margin: 0;">
+                  <div *ngIf="form.controls.confirmPassword.errors.required">
+                    Re-type the password.
+                  </div>
+                </div>
               </div>
             </div>
 
 
             <div class="form-group row">
               <div class="col-sm-12">
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!form.touched || !form.dirty || form.invalid ">Sign Up</button>
                 <!-- <button class="btn btn-info" id="googleBtn" data-onsuccess="onSignIn" style="float: right;">
                     <i class="fa fa-google" aria-hidden="true" style="padding-right: 1rem;"></i>Sign In with Google</button> -->
                 <!-- <button type="submit" id="googleBtn" data-onsuccess="onSignIn">G</button> -->
+                <button type="submit" class="btn btn-primary" [disabled]="!form.touched" (click)="form.reset()">Reset</button>
               </div>
             </div>
           </form>
 
+          <a class="text-primary" routerLink="/signIn" routerLinkActive="active" style="float: right;">Sign In instead</a>
 
-          <button class="btn btn-info" id="googleBtn" data-onsuccess="onSignIn" style="float: right;">
-            <i class="fa fa-google" aria-hidden="true" style="padding-right: 1rem;"></i>Sign In with Google</button>
-          <div>
-            <a class="text-primary" routerLink="/signIn" routerLinkActive="active">Sign In instead</a>
-          </div>
         </div>
       </div>
     </div>

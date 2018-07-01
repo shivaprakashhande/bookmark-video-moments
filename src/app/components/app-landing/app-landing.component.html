@@ -6,18 +6,37 @@
           Sign In
         </div>
         <div class="card-body">
-          <h5 class="card-title">Please sign in to continue...</h5> 
-          <form #form="ngForm" >
+          <div class="alert alert-{{messageType}} alert-dismissible fade show" *ngIf="showMessage">
+            <button type="button" class="close" (click)="resetMessage()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{message}}
+          </div>
+
+          <h5 class="card-title">Please sign in to continue...</h5>
+          <form #form="ngForm" (ngSubmit)="signIn(form,content)">
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Email" [(ngModel)]="userName" name="userName">
+                <input type="email" required class="form-control" id="inputEmail3" placeholder="Email" [(ngModel)]="eMail" name="eMail">
+                <div *ngIf="form.invalid && (form.controls.eMail.dirty || form.controls.eMail.touched) && form.controls.eMail.errors" class="alert alert-danger"
+                  style="line-height: 0.2rem;font-size:12px;margin: 0;">
+                  <div *ngIf="form.controls.eMail.errors.required">
+                    Email is required.
+                  </div>
+                </div>
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Password" [(ngModel)]="password" name="password" >
+                <input type="password" required class="form-control" id="inputPassword3" placeholder="Password" [(ngModel)]="password" name="password">
+                <div *ngIf="form.invalid && (form.controls.password.dirty || form.controls.password.touched) && form.controls.password.errors"
+                  class="alert alert-danger" style="line-height: 0.2rem;font-size:12px;margin: 0;">
+                  <div *ngIf="form.controls.password.errors.required">
+                    Enter a password.
+                  </div>
+                </div>
               </div>
             </div>
 

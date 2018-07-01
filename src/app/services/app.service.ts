@@ -9,8 +9,7 @@ export class AppService {
   constructor() { }
 
   getUserDetails(user){
-    console.log(user)
+    console.log('app service', user)
     this.userDetails.next(user);
-    console.log(this.userDetails)
   }
 }

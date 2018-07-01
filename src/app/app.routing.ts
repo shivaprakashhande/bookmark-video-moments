@@ -5,10 +5,11 @@ import { AppMainComponent } from './components/app-main/app-main.component';
 import { AppLandingComponent } from './components/app-landing/app-landing.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AppSignupComponent } from './components/app-signup/app-signup.component';
+import { ErrorComponent } from './components/error/error.component';
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'signIn',
+        redirectTo: '/signIn',
         pathMatch: 'full',
     },
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
         path: 'signUp',
         component: AppSignupComponent
     },
+    {
+        path:'error',
+        component:ErrorComponent
+    }
 ]
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
