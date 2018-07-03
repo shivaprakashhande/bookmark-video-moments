@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/bookmarkapp');
+mongoose.connect('your-db');
 
 const User = require('../models/userInfo');
 const Bookmark = require('../models/bookmarks');

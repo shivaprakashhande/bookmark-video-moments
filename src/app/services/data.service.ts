@@ -23,7 +23,4 @@ export class DataService {
     return this.http.get(`api/bookmark/${user}`);
   }
 
-  getVideoDetails(){
-    return this.http.get(`https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyDYHVBL7-FYlBVvKJ2UKa1YaoSdxjR1Nrg&fields=items(id,snippet(channelId,title,categoryId),statistics)&part=snippet,statistics`)
-  }
 }
