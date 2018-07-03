@@ -1,4 +1,80 @@
 <app-header (user)="fetchAuth($event)"></app-header>
-<p>
-  app-main works!
-</p>
+
+<div class="input-group input-group-lg py-3 pb-3 px-3">
+  <div class="input-group-prepend" >
+    <span class="input-group-text" id="inputGroup-sizing-lg"  style="background-color: #563d7c;color: white;">Search</span>
+  </div>
+  <input type="text" #term class="form-control serach-field" aria-label="Large" aria-describedby="inputGroup-sizing-sm" (keyup.enter)="search(term.value)">
+</div>
+<div class="row justify-content-center" [hidden]="!showIFrame">
+  <div class="card" *ngIf="addBookmark" style="width: 25%">
+    <div class="card-header" style="background-color: #563d7c;color: white;">
+      Bookmark this moment
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">
+        <input type="text" class="form-control" placeholder="Title" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="bookmarkTitle"
+          name="title">
+      </h5>
+      <p class="card-text">
+        <input type="text" class="form-control" placeholder="Description" aria-label="Username" aria-describedby="basic-addon1" [(ngModel)]="bookmarkDesc"
+          name="desc">
+      </p>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="" style="background-color: #563d7c;color: white;">HH | MM | SS</span>
+        </div>
+        <input type="number" class="form-control time-field" placeholder="" aria-label="Username" aria-describedby="basic-addon1"
+          [(ngModel)]="startTimeHrs" name="startTimeHrs">
+        <input type="number" class="form-control time-field" placeholder="" aria-label="Username" aria-describedby="basic-addon1"
+          [(ngModel)]="startTimeMins" name="startTimeMins">
+        <input type="number" class="form-control time-field" placeholder="" aria-label="Username" aria-describedby="basic-addon1"
+          [(ngModel)]="startTimeSecs" name="startTimeSecs">
+      </div>
+
+      <button (click)="saveBookmark()" class="btn btn-primary bookmark-save-btn">Save</button>
+    </div>
+  </div>
+  <button type="button" class="btn btn-success bookmark-btn-success" [hidden]="!saveSuccess">
+      <i class="fa fa-check"></i>
+    </button>
+  <button type="button" class="btn bookmark-btn" (click)="openBookmarkForm();" [hidden]="saveSuccess">
+    <i class="fa fa-bookmark"></i>
+  </button>
+  <div id="player"></div>
+</div>
+
+<div class="row justify-content-center" style="margin-top: 2rem">
+  <div class="col-md-10">
+    <div *ngIf="bookmarkList.length>0">
+      <div class="card nav-link" *ngFor="let bookmark of bookmarkList" style="cursor: pointer; ">
+        <a class="nav-link" (click)="playBookmark(bookmark)">
+          <div class="row">
+            <div class="col-md-3">
+              <img class="card-img-left" style="width:120px;" src="//img.youtube.com/vi/{{bookmark.bookmark.videoId}}/0.jpg" alt="Card image cap">
+            </div>
+            <div class="col-md-7">
+              <h4> {{bookmark?.bookmark?.title}}</h4>
+              <p> {{bookmark?.bookmark?.description}}</p>
+              <a class="nav nav-link" href="#" style="padding: 0"> {{bookmark?.bookmark?.starttime?.hrs}}:{{bookmark?.bookmark?.starttime?.mins}}:{{bookmark?.bookmark?.starttime?.secs}}</a>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <div *ngIf="showResult">
+      <div class="card nav-link" *ngFor="let item of searchList.items" style="cursor: pointer; ">
+        <a class="nav-link" (click)="onPlayerReady(item.id.videoId)">
+          <img class="card-img-left" style="width:120px;" src={{item?.snippet?.thumbnails?.medium?.url}} alt="Card image cap">
+          <span style="width: 60%"> {{item?.snippet.title}}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

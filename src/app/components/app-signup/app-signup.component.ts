@@ -17,7 +17,6 @@ export class AppSignupComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form)
     if (form.valid) {
 
       if (form.value.password !== form.value.confirmPassword) {
@@ -28,7 +27,7 @@ export class AppSignupComponent implements OnInit {
         form.controls.confirmPassword.reset();
         return;
       }
-      
+
       this.dataService.getUser(form.value.eMail).subscribe((res: Array<{}>) => {
         if (res.length == 0) {
           this.dataService.createUser(form.value).subscribe(res => {

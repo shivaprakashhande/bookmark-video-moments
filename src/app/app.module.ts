@@ -16,6 +16,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor.service';
 import { ErrorComponent } from './components/error/error.component';
 import { ErrorhandlerService } from './services/errorhandler.service';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { YoutubeService } from './services/youtube.service';
 
 @NgModule({
   declarations: [
@@ -33,11 +35,16 @@ import { ErrorhandlerService } from './services/errorhandler.service';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [AppService, 
-    AuthGuardService, 
+  providers: [AppService,
+    AuthGuardService,
     DataService,
     ErrorhandlerService,
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi:true }],
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    },
+    YoutubeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

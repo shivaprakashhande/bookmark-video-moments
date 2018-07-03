@@ -9,7 +9,7 @@ import {
 import { AppService } from './app.service'
 declare var gapi: any;
 @Injectable()
-export class AuthGuardService {
+export class AuthGuardService implements CanActivate {
   userName: string;
   public auth2: any;
   constructor(private router: Router, private appService: AppService) { }
@@ -43,7 +43,13 @@ export class AuthGuardService {
           resolve(true);
         }
       } else {
-        resolve(true);
+        if (url == '/signIn') {
+          resolve(true);
+        }
+        else {
+          this.router.navigateByUrl('signIn');
+          resolve(false);
+        }
       }
     })
   }
@@ -54,7 +60,8 @@ export class AuthGuardService {
         this.auth2 = gapi.auth2.init({
           client_id: '606561350597-k8ip0peb3m3rhsb66jp6be3pubve7514.apps.googleusercontent.com',
           cookiepolicy: 'single_host_origin',
-          scope: 'profile email',
+          'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
+          scope: 'profile email https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtubepartner',
           fetch_basic_profile: true,
         });
 

@@ -1,0 +1,46 @@
+.bookmark-btn{
+    background-color: #563d7c;
+    color: white;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.bookmark-btn-success{
+    color: white;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.bookmark-save-btn{
+    width: 100%;
+    margin-top: 3rem;
+    background-color: #563d7c;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.time-field{
+    font-size: 25px;
+    font-weight: 700;
+    padding: 0.2rem;
+    text-align: center;
+    border-color: #563d7c;
+    color: #563d7c;
+}
+
+.serach-field:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #563d7c;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(86,61,124,.25);
+}

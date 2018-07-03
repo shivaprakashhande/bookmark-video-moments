@@ -40,7 +40,8 @@ export class AppLandingComponent {
       this.auth2 = gapi.auth2.init({
         client_id: '606561350597-k8ip0peb3m3rhsb66jp6be3pubve7514.apps.googleusercontent.com',
         cookiepolicy: 'single_host_origin',
-        scope: 'profile email',
+        'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest'],
+        scope: 'profile email https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtubepartner',
         fetch_basic_profile: true,
       });
 

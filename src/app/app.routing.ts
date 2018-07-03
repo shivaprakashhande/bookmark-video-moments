@@ -27,8 +27,8 @@ const routes: Routes = [
         component: AppSignupComponent
     },
     {
-        path:'error',
-        component:ErrorComponent
+        path: 'error',
+        component: ErrorComponent
     }
 ]
 @NgModule({
